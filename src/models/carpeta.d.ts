@@ -1,0 +1,33 @@
+import { Prisma } from '@prisma/client';
+import type { outActuacion } from '../types/actuaciones.type';
+import type { Category, Codeudor, IntCarpeta, TipoProceso } from '../types/carpetas.type';
+import type { outProceso } from '../types/procesos.type';
+import type { RawDb } from '../types/raw-db.type';
+import { NotasBuilder } from './nota';
+import { ClassDemanda } from './demanda';
+import { ClassDeudor } from './deudor';
+export default class Carpeta implements IntCarpeta {
+    procesos: outProceso[];
+    idProcesos: number[];
+    actuaciones: outActuacion[];
+    notas: NotasBuilder[];
+    ultimaActuacion: outActuacion | null;
+    codeudor: Codeudor;
+    demanda: ClassDemanda;
+    deudor: ClassDeudor;
+    numero: number;
+    llaveProceso: string;
+    fecha: Date | null;
+    idRegUltimaAct: number | null;
+    id: number;
+    category: Category;
+    nombre: string;
+    revisado: boolean;
+    terminado: boolean;
+    tipoProceso: TipoProceso;
+    notasCount: number | null;
+    constructor(rawCarpeta: RawDb);
+    getProcesos(): Promise<outProceso[]>;
+    getActuaciones(): Promise<outActuacion[]>;
+    static prismaCarpeta(carpeta: IntCarpeta): Prisma.CarpetaCreateInput;
+}
